@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API-demo-workshop-google-books</title>
+
+    <style>
+        body{
+            display: flex;
+            justify-content: center;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        ul{
+
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            text-align: center;
+        }
+        h1{
+            text-align: center;
+        }
+        li{
+            border: 1px solid black;
+           
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1>Google Books</h1>
+        <ul id="booklist">
+        
+        </ul>
+        <script>
+            var booklist = document.getElementById("booklist");
+            var key ="AIzaSyDlJWbX3dSrCnEcXgyOSFtwpTtR72PVbF0";
+            var url ="https://www.googleapis.com/books/v1/volumes?q=alchemist&key="
+
+            var api = url + key
+            // pull api call
+            // then get the json data
+            // then get the data from the json 
+            //then list the object info
+            fetch(api).then(function(response){return response.json();}).then(function(data){console.log(data);
+          data.items.forEach(function(item){
+
+        var title = item.volumeInfo.title;
+        var author = item.volumeInfo.authors[0];
+       var link = item.volumeInfo.canonicalVolumeLink;
+       var image = item.volumeInfo.imageLinks.smallThumbnail;
+
+        var newItem = "<li>" + `<a href="${link}">` + title + "</a>"  + "by: " + author + `<img src="${image}">` +"</li>";
+        var newItemEdit = `<li><a href="${link}">${title}</a><span>by: ${author}</span><img src="${image}"></li>`;
+        booklist.innerHTML += newItem;
+        }
+        );});
+
+
+        </script>
+    </div>
+</body>
+</html>

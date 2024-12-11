@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Monty Hall Problem</title>
+<style>
+    body {
+    
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        display: flex;
+        justify-content: center;
+        margin-top: 20vh;
+        background-color: rgb(243, 249, 251);
+        color: rgb(133, 134, 142);
+
+        
+    }
+    #container{
+        
+        width: 400px;
+        box-shadow: 6px 6px 5px rgb(187, 202, 208), 
+        inset 5px 5px 5px white;
+        /*inset -5px -5px 5px rgb(218, 212, 212) */
+        ;
+        
+        padding: 50px;
+        border-radius: 25px;
+    }
+
+    h1{
+        border-bottom: 1px solid black;
+        padding-bottom: 5px;
+        
+    }
+</style>
+
+</head>
+<body>
+    <div id="container">
+    <h1>The Monty Hall Problem</h1>
+    <p id="output1">car number:</p>
+    <p id="output2">Contestant Number</p>
+    <p id="output3">Door to remove</p>
+    <p id="stay">stay count</p>
+    <p id="switch">switch count</p>
+    <p id="staypercent">stay percent</p>
+    <p id="switchpercent">switch percent</p>
+</div>
+    
+    <script>
+
+var stayCount = 0;
+var switchCount = 0;
+var loops = 10000;
+
+for(var i = 0; i < loops; i++){
+// randomly place a car behind the door, 1 2 or 3
+// or in this case a variable
+
+var car = Math.floor(Math.random() *3) +1;
+var output1 = document.getElementById("output1");
+output1.innerHTML = "The car is behind door number: " + car;
+
+// our contestant chooses a door 1 2 or 3
+// or in this case our contestant randomized variable
+
+var choice = Math.ceil(Math.random()*3);
+var output2 = document.getElementById("output2");
+output2.innerHTML = "The contestant chose door: " + choice;
+
+// randomly remove a door
+// door cannot be the car door or the choice door
+
+// Check open door.
+// if the random number is the same as choice or car, redo
+
+do{
+    var remove = Math.ceil(Math.random()*3);
+}
+while(remove == choice || remove == car);
+
+var output3 = document.getElementById("output3");
+output3.innerHTML = "The opened zonk is door number: " + remove;
+
+
+
+if(choice == car){
+    stayCount++;
+}
+if(choice != car){
+    switchCount++
+}
+
+var stayOutput = document.getElementById("stay");
+stayOutput.innerHTML = "The contestant should stay " + stayCount  + " times.";
+
+var switchOutput = document.getElementById("switch");
+switchOutput.innerHTML = "The contestant should switch " + switchCount  + " times.";
+
+}
+
+// calculate percentage
+
+var stayPercent = Math.round((stayCount/i)*100);
+var stayPercentOutput =  document.getElementById("staypercent");
+stayPercentOutput.innerHTML = "The contestant should stay %" + stayPercent + " of the time.";
+
+var switchPercent = Math.round((switchCount/i)*100);
+var switchPercentOutput =  document.getElementById("switchpercent");
+switchPercentOutput.innerHTML = "The contestant should switch %" + switchPercent + " of the time.";
+
+    </script>
+</body>
+</html>

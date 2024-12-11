@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monty Hall Problem Simulation</title>
+</head>
+<body>
+    <h2>Monty Hall Problem Simulation</h2>
+    <button onclick="runSimulation()">Run Simulation</button>
+    <p id="output"></p>
+
+    <script>
+        function simulateMontyHall(trials) {
+            let stayWins = 0;
+            let switchWins = 0;
+
+            for (let i = 0; i < trials; i++) {
+                // Set up doors: one prize door and two empty doors
+                const doors = [0, 0, 0];
+                const prizeDoor = Math.floor(Math.random() * 3);
+                doors[prizeDoor] = 1;
+
+                // Contestant picks a random door
+                const contestantChoice = Math.floor(Math.random() * 3);
+
+                // Host reveals an empty door (not the contestant's choice and not the prize door)
+                let revealedDoor;
+                do {
+                    revealedDoor = Math.floor(Math.random() * 3);
+                } while (revealedDoor === contestantChoice || doors[revealedDoor] === 1);
+
+                // Determine the door to switch to
+                const switchChoice = [0, 1, 2].find(
+                    door => door !== contestantChoice && door !== revealedDoor
+                );
+
+                // Track wins based on staying or switching
+                if (doors[contestantChoice] === 1) {
+                    stayWins++;
+                } else if (doors[switchChoice] === 1) {
+                    switchWins++;
+                }
+            }
+
+            const stayWinPercentage = ((stayWins / trials) * 100).toFixed(2);
+            const switchWinPercentage = ((switchWins / trials) * 100).toFixed(2);
+
+            return { stayWinPercentage, switchWinPercentage };
+        }
+
+        function runSimulation() {
+            const trials = 10000;
+            const results = simulateMontyHall(trials);
+
+            document.getElementById("output").innerHTML = `
+                Out of ${trials} trials:<br>
+                Staying won ${results.stayWinPercentage}% of the time.<br>
+                Switching won ${results.switchWinPercentage}% of the time.
+            `;
+        }
+    </script>
+</body>
+</html>
